@@ -51,31 +51,30 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
 /* ─────────────────────────────────────
-   CUSTOM CURSOR
+   CUSTOM CURSOR — desktop only
 ───────────────────────────────────── */
-#cursor {
-  position: fixed;
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: var(--neon);
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: width .25s, height .25s, background .25s;
-  mix-blend-mode: exclusion;
+#cursor, #cursor-trail { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  #cursor {
+    display: block; position: fixed;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--neon); pointer-events: none;
+    z-index: 9999; transform: translate(-50%,-50%);
+    transition: width .25s, height .25s, background .25s;
+    mix-blend-mode: exclusion;
+  }
+  #cursor-trail {
+    display: block; position: fixed;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid rgba(200,255,87,0.4);
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+  }
+  body:has(a:hover) #cursor,
+  body:has(.proj-card:hover) #cursor,
+  body:has(.btn:hover) #cursor { width: 60px; height: 60px; }
 }
-#cursor-trail {
-  position: fixed;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(200,255,87,0.4);
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%,-50%);
-}
-body:has(a:hover) #cursor,
-body:has(.proj-card:hover) #cursor,
-body:has(.btn:hover) #cursor { width: 60px; height: 60px; background: var(--neon); mix-blend-mode: exclusion; }
 
 /* ─────────────────────────────────────
    NAV
@@ -375,7 +374,7 @@ body::before {
   border-radius: 100px;
   border: 1px solid rgba(242,237,230,0.35);
   color: var(--paper);
-  cursor: none;
+  cursor: pointer;
   background: rgba(242,237,230,0.06);
   letter-spacing: .08em; text-transform: uppercase;
   font-family: var(--font-body);
@@ -710,24 +709,71 @@ footer {
    RESPONSIVE
 ───────────────────────────────────── */
 @media (max-width: 900px) {
-  nav { padding: 22px 24px; }
-  .hero { padding: 0 24px 48px; }
-  .hero-h1 { font-size: clamp(4rem, 15vw, 8rem); }
-  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 28px; }
+  nav { padding: 18px 20px; }
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: .72rem; }
+  .hero { padding: 0 20px 44px; min-height: 100svh; }
+  .hero-bg-letter { font-size: 55vw; }
+  .hero-h1 { font-size: clamp(3rem, 13vw, 5.5rem); }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
   .hero-scroll-hint { display: none; }
-  .divider { margin: 0 24px; }
-  .section-header { padding: 0 24px; flex-direction: column; align-items: flex-start; gap: 20px; }
-  .section-subtitle { text-align: left; }
-  .proj-track { padding: 0 24px; }
-  .proj-card { width: 320px; }
-  .proj-card.featured { width: 380px; }
-  .proj-visual { height: 240px; }
-  .about-section { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
-  .about-img-frame { max-width: 100%; aspect-ratio: 4/3; }
-  .contact-section { padding: 80px 24px; }
-  footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+  .hero-desc { max-width: 100%; font-size: .85rem; }
+  .hero-marquee-wrap { top: 90px; }
+  .divider { margin: 0 20px; }
+  .section-header { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
+  .section-subtitle { text-align: left; max-width: 100%; }
+  .section-title { font-size: clamp(2.5rem, 10vw, 5rem); }
+  .proj-track-wrap { overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
+  .proj-track { padding: 0 20px; gap: 16px; width: max-content; }
+  .proj-card { width: 78vw; max-width: 340px; flex-shrink: 0; }
+  .proj-card.featured { width: 85vw; max-width: 380px; }
+  .proj-visual { height: 220px; }
+  .proj-card.featured .proj-visual { height: 260px; }
+  .about-section { grid-template-columns: 1fr; padding: 70px 20px; gap: 40px; }
+  .about-img-frame { max-width: 100%; aspect-ratio: 3/2; }
+  .about-img-badge { right: 0; bottom: -16px; }
+  .about-h2 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .skills-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .skill-item { padding: 14px; }
+  .contact-section { padding: 70px 20px; }
+  .contact-h2 { font-size: clamp(3rem, 13vw, 7rem); }
+  .contact-socials { flex-wrap: wrap; gap: 14px; }
+  footer { padding: 28px 20px; flex-direction: column; gap: 10px; text-align: center; }
+  .btn { padding: 13px 24px; font-size: .76rem; }
+}
+@media (max-width: 480px) {
+  .hero-h1 { font-size: clamp(2.6rem, 16vw, 4rem); }
+  .nav-links { gap: 12px; }
+  .proj-card { width: 88vw; }
+  .proj-card.featured { width: 92vw; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .contact-h2 { font-size: clamp(2.2rem, 14vw, 4rem); }
 }
 
+
+/* Mobile: show action buttons below card info instead of overlay */
+@media (max-width: 900px) {
+  .proj-overlay { display: none !important; }
+  .proj-mobile-btns { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .proj-mobile-btn {
+    font-size: .72rem; font-weight: 500;
+    padding: 9px 18px; border-radius: 100px;
+    border: 1px solid rgba(242,237,230,0.2);
+    color: var(--paper); cursor: pointer;
+    background: rgba(242,237,230,0.05);
+    letter-spacing: .07em; text-transform: uppercase;
+    font-family: var(--font-body);
+    text-decoration: none; display: inline-flex; align-items: center;
+    transition: background .3s;
+  }
+  .proj-mobile-btn.primary {
+    background: var(--neon); color: var(--ink);
+    border-color: var(--neon); font-weight: 600;
+  }
+}
+@media (min-width: 901px) {
+  .proj-mobile-btns { display: none; }
+}
 /* Clip text for split animation */
 .split-word { display: inline-block; overflow: hidden; }
 .split-word-inner { display: inline-block; }
@@ -879,7 +925,7 @@ footer {
             </div>
           </div>
           <div class="proj-overlay">
-            <a href="#" class="btn-sm primary">Live Demo</a>
+            <a href="https://github.com/abdosayedd2040-cloud/yawmiyti-apk/raw/main/build/app/outputs/flutter-apk/app-release.apk" class="btn-sm primary" target="_blank">Download APK</a>
             <a href="#" class="btn-sm">Case Study</a>
           </div>
         </div>
@@ -895,6 +941,10 @@ footer {
           <div class="proj-footer">
             <span class="proj-year">2025</span>
             <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-mobile-btns">
+            <a href="https://github.com/abdosayedd2040-cloud/yawmiyti-apk/raw/main/build/app/outputs/flutter-apk/app-release.apk" class="proj-mobile-btn primary" target="_blank">⬇ Download APK</a>
+            <a href="#" class="proj-mobile-btn">Case Study</a>
           </div>
         </div>
       </div>
@@ -957,6 +1007,10 @@ footer {
             <span class="proj-year">2025</span>
             <div class="proj-arrow">↗</div>
           </div>
+          <div class="proj-mobile-btns">
+            <a href="#" class="proj-mobile-btn primary">Live Demo</a>
+            <a href="#" class="proj-mobile-btn">Case Study</a>
+          </div>
         </div>
       </div>
 
@@ -1006,6 +1060,10 @@ footer {
             <span class="proj-year">2024</span>
             <div class="proj-arrow">↗</div>
           </div>
+          <div class="proj-mobile-btns">
+            <a href="#" class="proj-mobile-btn primary">Live Demo</a>
+            <a href="#" class="proj-mobile-btn">Case Study</a>
+          </div>
         </div>
       </div>
 
@@ -1042,6 +1100,10 @@ footer {
           <div class="proj-footer">
             <span class="proj-year">2024</span>
             <div class="proj-arrow">↗</div>
+          </div>
+          <div class="proj-mobile-btns">
+            <a href="#" class="proj-mobile-btn primary">View System</a>
+            <a href="#" class="proj-mobile-btn">Figma File</a>
           </div>
         </div>
       </div>
